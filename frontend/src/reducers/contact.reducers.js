@@ -4,7 +4,7 @@ import {
   CONTACT_DELETE_ALL,
   CONTACT_FETCH_ALL,
   CONTACT_UPDATE
-} from 'constants/contactContsant';
+} from 'constants/contact.constants';
 
 export const contactReducer = (contacts = [], action) => {
   switch (action.type) {
