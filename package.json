@@ -1,0 +1,19 @@
+{
+  "name": "small-fullstack-redux-project",
+  "version": "1.0.0",
+  "description": "Manage your contacts from here",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damian-lis/small-fullstack-redux-project.git"
+  },
+  "author": "Damian Lis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/damian-lis/small-fullstack-redux-project/issues"
+  },
+  "homepage": "https://github.com/damian-lis/small-fullstack-redux-project#readme"
+}
