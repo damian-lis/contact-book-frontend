@@ -1,7 +1,27 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { Button, Card, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import MaterialTable from 'material-table';
+
+const EditDeleteBtn = (rowData) =>
+  rowData && (
+    <>
+      <IconButton color="primary">
+        <EditIcon />
+      </IconButton>
+      <IconButton color="secondary">
+        <DeleteIcon />
+      </IconButton>
+    </>
+  );
+
+const SelectedImage = (rowData) => (
+  <img alt="Userimage" style={{ height: 36, borderRadius: '50%' }} src={rowData.selectedImage} />
+);
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -20,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
 const ContactTable = ({ handleOpen }) => {
   const classes = useStyles();
 
+  const contacts = useSelector((state) => state.contacts);
+  console.log(contacts);
+
   return (
     <>
       <div style={{ textAlign: 'right' }}>
@@ -33,6 +56,40 @@ const ContactTable = ({ handleOpen }) => {
           Add Contact
         </Button>
       </div>
+      <Card>
+        <MaterialTable
+          title="Contact Details"
+          columns={[
+            {
+              title: 'Image',
+              field: 'selectedImage',
+              render: SelectedImage
+            },
+            { title: 'Name', field: 'name' },
+            { title: 'Email', field: 'email' },
+            { title: 'Phone No', field: 'phoneNo1' },
+            { title: 'Alt Phone No', field: 'phoneNo2' },
+            { title: 'Address', field: 'address' },
+            {
+              title: 'Edit/Delete',
+              field: 'edit',
+              render: EditDeleteBtn
+            }
+          ]}
+          data={contacts}
+          actions={[
+            {
+              tooltip: 'Remove All Selected Contacts',
+              icon: 'delete'
+            }
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            exportButton: true,
+            selection: true
+          }}
+        />
+      </Card>
     </>
   );
 };
