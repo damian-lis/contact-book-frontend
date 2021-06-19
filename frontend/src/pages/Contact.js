@@ -5,7 +5,7 @@ import ContactForm from 'components/ContactForm';
 import ContactTable from 'components/ContactTable';
 import { fetchContacts } from 'actions/contact.actions';
 
-const Index = () => {
+const Contact = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -30,4 +30,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Contact;
