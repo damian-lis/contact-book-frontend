@@ -19,3 +19,12 @@ export const fetchContacts = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const deleteContact = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/contact/${id}`);
+    dispatch({ type: CONTACT_DELETE, payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};
