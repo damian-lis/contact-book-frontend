@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import mongoose from 'mongoose'
 import Contact from '../models/contact.models.js'
 
 const createContact = asyncHandler(async (req, res) => {
@@ -26,4 +27,13 @@ const getContacts = asyncHandler(async (req, res) => {
   res.json(contacts)
 })
 
-export { createContact, getContacts }
+const deleteContact = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send('Incorrect ID')
+  }
+  await Contact.findByIdAndRemove(id)
+  res.json({ message: 'Contact deleted successfully.' })
+})
+
+export { createContact, getContacts, deleteContact }
