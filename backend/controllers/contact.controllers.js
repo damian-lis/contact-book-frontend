@@ -36,4 +36,17 @@ const deleteContact = asyncHandler(async (req, res) => {
   res.json({ message: 'Contact deleted successfully.' })
 })
 
-export { createContact, getContacts, deleteContact }
+const deleteContacts = asyncHandler(async (req, res) => {
+  if (req.body.length > 0) {
+    await Contact.deleteMany({
+      _id: {
+        $in: req.body,
+      },
+    })
+    res.json({ message: 'Contacts are deleted successfully.' })
+  } else {
+    res.status(400).json({ message: 'No Ids found' })
+  }
+})
+
+export { createContact, getContacts, deleteContact, deleteContacts }
