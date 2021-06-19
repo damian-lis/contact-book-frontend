@@ -21,4 +21,9 @@ const createContact = asyncHandler(async (req, res) => {
   }
 })
 
-export { createContact }
+const getContacts = asyncHandler(async (req, res) => {
+  const contacts = await Contact.find()
+  res.json(contacts)
+})
+
+export { createContact, getContacts }
