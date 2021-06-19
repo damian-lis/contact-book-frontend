@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
-import { deleteContact } from 'actions/contact.actions';
+import { deleteContact, deleteContacts } from 'actions/contact.actions';
 
 const EditDeleteBtn = (rowData, handleDeleteContact) =>
   rowData && (
@@ -51,6 +51,10 @@ const ContactTable = ({ handleOpen }) => {
     dispatch(deleteContact(id));
   };
 
+  const handleDeleteContacts = (ids) => {
+    dispatch(deleteContacts(ids));
+  };
+
   return (
     <>
       <div style={{ textAlign: 'right' }}>
@@ -88,7 +92,8 @@ const ContactTable = ({ handleOpen }) => {
           actions={[
             {
               tooltip: 'Remove All Selected Contacts',
-              icon: 'delete'
+              icon: 'delete',
+              onClick: (evt, data) => handleDeleteContacts(data.map((contact) => contact._id))
             }
           ]}
           options={{
