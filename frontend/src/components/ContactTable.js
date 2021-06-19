@@ -1,19 +1,24 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
+import { deleteContact } from 'actions/contact.actions';
 
-const EditDeleteBtn = (rowData) =>
+const EditDeleteBtn = (rowData, handleDeleteContact) =>
   rowData && (
     <>
       <IconButton color="primary">
         <EditIcon />
       </IconButton>
-      <IconButton color="secondary">
+      <IconButton
+        color="secondary"
+        onClick={() => {
+          handleDeleteContact(rowData._id);
+        }}>
         <DeleteIcon />
       </IconButton>
     </>
@@ -39,9 +44,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ContactTable = ({ handleOpen }) => {
   const classes = useStyles();
-
   const contacts = useSelector((state) => state.contacts);
-  console.log(contacts);
+  const dispatch = useDispatch();
+
+  const handleDeleteContact = (id) => {
+    dispatch(deleteContact(id));
+  };
 
   return (
     <>
@@ -73,7 +81,7 @@ const ContactTable = ({ handleOpen }) => {
             {
               title: 'Edit/Delete',
               field: 'edit',
-              render: EditDeleteBtn
+              render: (rowData) => EditDeleteBtn(rowData, handleDeleteContact)
             }
           ]}
           data={contacts}
