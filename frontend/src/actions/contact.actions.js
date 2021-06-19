@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-import { CONTACT_CREATE, CONTACT_FETCH_ALL, CONTACT_DELETE } from 'constants/contact.constants';
+import {
+  CONTACT_CREATE,
+  CONTACT_FETCH_ALL,
+  CONTACT_DELETE,
+  CONTACT_DELETE_ALL
+} from 'constants/contact.constants';
 
 export const createContact = (form) => async (dispatch) => {
   try {
@@ -24,6 +29,15 @@ export const deleteContact = (id) => async (dispatch) => {
   try {
     await axios.delete(`/contact/${id}`);
     dispatch({ type: CONTACT_DELETE, payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteContacts = (ids) => async (dispatch) => {
+  try {
+    await axios.post(`/contact/delete`, ids);
+    dispatch({ type: CONTACT_DELETE_ALL, payload: ids });
   } catch (error) {
     console.log(error);
   }
