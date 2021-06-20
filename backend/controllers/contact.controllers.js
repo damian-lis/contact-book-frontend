@@ -6,6 +6,7 @@ const createContact = asyncHandler(async (req, res) => {
   const { name, email, phoneNo1, phoneNo2, address, selectedImage } = req.body
 
   const newContact = new Contact({
+    user: req.user._id,
     name,
     email,
     phoneNo1,
