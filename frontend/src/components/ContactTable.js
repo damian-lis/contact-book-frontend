@@ -8,10 +8,15 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
 import { deleteContact, deleteContacts } from 'actions/contact.actions';
 
-const EditDeleteBtn = (rowData, handleDeleteContact) =>
+const EditDeleteBtn = (rowData, handleDeleteContact, handleOpen, setCurrentId) =>
   rowData && (
     <>
-      <IconButton color="primary">
+      <IconButton
+        onClick={() => {
+          setCurrentId(rowData._id);
+          handleOpen();
+        }}
+        color="primary">
         <EditIcon />
       </IconButton>
       <IconButton
@@ -42,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ContactTable = ({ handleOpen }) => {
+const ContactTable = ({ handleOpen, setCurrentId }) => {
   const classes = useStyles();
   const contacts = useSelector((state) => state.contacts);
   const dispatch = useDispatch();
@@ -85,7 +90,8 @@ const ContactTable = ({ handleOpen }) => {
             {
               title: 'Edit/Delete',
               field: 'edit',
-              render: (rowData) => EditDeleteBtn(rowData, handleDeleteContact)
+              render: (rowData) =>
+                EditDeleteBtn(rowData, handleDeleteContact, handleOpen, setCurrentId)
             }
           ]}
           data={contacts}

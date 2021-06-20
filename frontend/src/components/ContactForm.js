@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -11,7 +11,7 @@ import {
   Dialog,
   Button
 } from '@material-ui/core';
-import { createContact } from 'actions/contact.actions';
+import { createContact, updateContact } from 'actions/contact.actions';
 
 const useStyles = makeStyles(() => ({
   file: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const ContactForm = ({ open, handleClose }) => {
+const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -36,20 +36,34 @@ const ContactForm = ({ open, handleClose }) => {
 
   const clearData = () => {
     setContactData(initialState);
+    setCurrentId(0);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleClose();
-    dispatch(createContact(contactData));
+    currentId === 0
+      ? dispatch(createContact(contactData))
+      : dispatch(updateContact(currentId, contactData));
+
     clearData();
   };
+
+  const contactDetails = useSelector((state) =>
+    currentId ? state.contacts.find((contact) => contact._id === currentId) : null
+  );
+
+  useEffect(() => {
+    contactDetails && setContactData(contactDetails);
+  }, [contactDetails]);
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Contact Details</DialogTitle>
       <DialogContent>
-        <DialogContentText>To add your contact details from here</DialogContentText>
+        <DialogContentText>
+          {`To ${currentId === 0 ? 'add' : 'update'} your contact details from here`}
+        </DialogContentText>
         <TextField
           margin="dense"
           id="name"
@@ -108,7 +122,7 @@ const ContactForm = ({ open, handleClose }) => {
           Close
         </Button>
         <Button color="primary" onClick={handleSubmit}>
-          Add Contact
+          {`${currentId === 0 ? 'Add' : 'Update'} Contact`}
         </Button>
       </DialogActions>
     </Dialog>

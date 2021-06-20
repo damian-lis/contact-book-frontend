@@ -8,6 +8,7 @@ import { fetchContacts } from 'actions/contact.actions';
 const Contact = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const [currentId, setCurrentId] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
@@ -24,8 +25,13 @@ const Contact = () => {
   return (
     <div>
       <Header />
-      <ContactForm open={open} handleClose={handleClose} />
-      <ContactTable open={open} handleClose={handleClose} handleOpen={handleOpen} />
+      <ContactForm
+        open={open}
+        handleClose={handleClose}
+        currentId={currentId}
+        setCurrentId={setCurrentId}
+      />
+      <ContactTable handleOpen={handleOpen} setCurrentId={setCurrentId} />
     </div>
   );
 };
