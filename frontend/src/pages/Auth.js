@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles } from '@material-ui/core/styles';
-import Header from '../components/Header';
+import { GoogleLogin } from 'react-google-login';
 import {
   Container,
   Avatar,
@@ -12,6 +11,12 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { makeStyles } from '@material-ui/core/styles';
+import Icon from 'components/Icon';
+import Header from 'components/Header';
+import { signIn, signUp } from 'actions/auth.actions';
+import { GOOGLE_ID } from 'env';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,9 +42,73 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Auth = () => {
+const Auth = ({ history }) => {
+  const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
+
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
+  const [authForm, setAuthForm] = useState(initialState);
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const googleSuccess = async (res) => {
+    console.log(res);
+    const result = res?.profileObj;
+
+    try {
+      const form = {
+        firstName: result.givenName,
+        lastName: result.familyName,
+        email: result.email,
+        password: result.googleId
+      };
+
+      await dispatch(signUp(form));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const googleFaliure = () => {
+    console.log('Google Sign In Unsuccessful. Try Again Later');
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      if (
+        !authForm.firstName ||
+        !authForm.lastName ||
+        !authForm.email ||
+        !authForm.password ||
+        authForm.password !== authForm.confirmPassword
+      ) {
+        alert('Please fill all fields or password does not matched !');
+      } else {
+        e.currentTarget.textContent = 'Signing up ....';
+        dispatch(signUp(authForm));
+      }
+    } else {
+      if (!authForm.email || !authForm.password) {
+        alert('Please fill all fields !');
+      } else {
+        e.currentTarget.textContent = 'Signing in ...';
+        dispatch(signIn(authForm));
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      history.push('/contact');
+    }
+  }, [history, userInfo]);
 
   return (
     <>
@@ -66,6 +135,12 @@ const Auth = () => {
                       fullWidth
                       id="firstName"
                       label="First Name"
+                      onChange={(e) =>
+                        setAuthForm({
+                          ...authForm,
+                          firstName: e.target.value
+                        })
+                      }
                     />
                   </Grid>
 
@@ -78,6 +153,12 @@ const Auth = () => {
                       fullWidth
                       id="lastName"
                       label="Last Name"
+                      onChange={(e) =>
+                        setAuthForm({
+                          ...authForm,
+                          lastName: e.target.value
+                        })
+                      }
                     />
                   </Grid>
                 </>
@@ -92,6 +173,12 @@ const Auth = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={(e) =>
+                    setAuthForm({
+                      ...authForm,
+                      email: e.target.value
+                    })
+                  }
                 />
               </Grid>
 
@@ -105,6 +192,12 @@ const Auth = () => {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={(e) =>
+                    setAuthForm({
+                      ...authForm,
+                      password: e.target.value
+                    })
+                  }
                 />
               </Grid>
 
@@ -119,6 +212,12 @@ const Auth = () => {
                     type="password"
                     id="conf_password"
                     autoComplete="confirm-password"
+                    onChange={(e) =>
+                      setAuthForm({
+                        ...authForm,
+                        confirmPassword: e.target.value
+                      })
+                    }
                   />
                 </Grid>
               )}
@@ -129,9 +228,29 @@ const Auth = () => {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}>
+              className={classes.submit}
+              onClick={handleSubmit}>
               {`${isSignUp ? 'Sign Up' : 'Sign In'}`}
             </Button>
+
+            <GoogleLogin
+              clientId={GOOGLE_ID}
+              render={(renderProps) => (
+                <Button
+                  className={classes.googleButton}
+                  color="primary"
+                  fullWidth
+                  startIcon={<Icon />}
+                  variant="contained"
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}>
+                  Google Log In
+                </Button>
+              )}
+              onSuccess={googleSuccess}
+              onFaliure={googleFaliure}
+              cookiePolicy="single_host_origin"
+            />
 
             <Grid container justify="flex-end">
               <Grid item>
