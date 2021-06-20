@@ -6,12 +6,13 @@ import {
   deleteContacts,
   updateContact,
 } from '../controllers/contact.controllers.js'
+import { protect } from '../middlewares/auth.middlewares.js'
 
 const router = express.Router()
 
-router.route('/').post(createContact)
-router.route('/').get(getContacts)
-router.route('/:id').delete(deleteContact).put(updateContact)
-router.route('/delete').post(deleteContacts)
+router.route('/').post(protect, createContact)
+router.route('/').get(protect, getContacts)
+router.route('/:id').delete(protect, deleteContact).put(protect, updateContact)
+router.route('/delete').post(protect, deleteContacts)
 
 export default router
