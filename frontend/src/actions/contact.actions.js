@@ -4,7 +4,8 @@ import {
   CONTACT_CREATE,
   CONTACT_FETCH_ALL,
   CONTACT_DELETE,
-  CONTACT_DELETE_ALL
+  CONTACT_DELETE_ALL,
+  CONTACT_UPDATE
 } from 'constants/contact.constants';
 
 export const createContact = (form) => async (dispatch) => {
@@ -38,6 +39,17 @@ export const deleteContacts = (ids) => async (dispatch) => {
   try {
     await axios.post(`/contact/delete`, ids);
     dispatch({ type: CONTACT_DELETE_ALL, payload: ids });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateContact = (id, form) => async (dispatch) => {
+  console.log(id);
+  try {
+    const { data } = await axios.put(`/contact/${id}`, form);
+    console.log(data);
+    dispatch({ type: CONTACT_UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
