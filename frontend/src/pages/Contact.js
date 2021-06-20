@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from 'components/Header';
 import ContactForm from 'components/ContactForm';
 import ContactTable from 'components/ContactTable';
@@ -9,6 +9,7 @@ const Contact = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleOpen = () => {
     setOpen(true);
@@ -24,7 +25,7 @@ const Contact = () => {
 
   return (
     <div>
-      <Header />
+      <Header userInfo={userInfo} />
       <ContactForm
         open={open}
         handleClose={handleClose}

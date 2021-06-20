@@ -1,7 +1,8 @@
 import React from 'react';
-
-import { Typography, AppBar, Toolbar } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { logout } from 'actions/auth.actions';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -14,16 +15,32 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const Header = () => {
+const Header = ({ userInfo }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
   return (
     <div>
       <AppBar position="static" style={{ marginTop: '20px' }}>
         <Toolbar>
+          {userInfo && (
+            <Typography variant="h6" className={classes.name}>
+              {`Hello, ${userInfo.firstName} ${userInfo.lastName}`}
+            </Typography>
+          )}
           <Typography variant="h6" className={classes.name}></Typography>
           <Typography variant="h6" className={classes.title}>
             Contact Book
           </Typography>
+          {userInfo && (
+            <Button variant="contained" style={{ textAlign: 'right' }} onClick={handleLogout}>
+              Sign Out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
