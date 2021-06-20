@@ -49,4 +49,30 @@ const deleteContacts = asyncHandler(async (req, res) => {
   }
 })
 
-export { createContact, getContacts, deleteContact, deleteContacts }
+const updateContact = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { name, email, phoneNo1, phoneNo2, address, selectedImage } = req.body
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No contact with id: ${id}`)
+
+  const existContact = await Contact.findById(id)
+  existContact.name = name || existContact.name
+  existContact.email = email || existContact.email
+  existContact.phoneNo1 = phoneNo1 || existContact.phoneNo1
+  existContact.phoneNo2 = phoneNo2 || existContact.phoneNo2
+  existContact.address = address || existContact.address
+  existContact.selectedImage = selectedImage || existContact.selectedImage
+
+  const updatedContact = await existContact.save()
+
+  res.json(updatedContact)
+})
+
+export {
+  createContact,
+  getContacts,
+  deleteContact,
+  deleteContacts,
+  updateContact,
+}
