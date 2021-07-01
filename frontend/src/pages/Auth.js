@@ -16,7 +16,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Icon from 'components/Icon';
 import Header from 'components/Header';
 import { signIn, signUp } from 'actions/auth.actions';
-import { GOOGLE_ID } from 'env';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -234,7 +233,7 @@ const Auth = ({ history }) => {
             </Button>
 
             <GoogleLogin
-              clientId={GOOGLE_ID}
+              clientId={process.env.GOOGLE_ID}
               render={(renderProps) => (
                 <Button
                   className={classes.googleButton}
