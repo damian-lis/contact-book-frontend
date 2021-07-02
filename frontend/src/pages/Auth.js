@@ -14,7 +14,6 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Icon from 'components/Icon';
-import Header from 'components/Header';
 import { signIn, signUp } from 'actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3)
   },
   submit: {
@@ -111,7 +110,6 @@ const Auth = ({ history }) => {
 
   return (
     <>
-      <Header />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -233,7 +231,7 @@ const Auth = ({ history }) => {
             </Button>
 
             <GoogleLogin
-              clientId={process.env.GOOGLE_ID}
+              clientId={'339342796622-ked3g3vnl8qa265d5m2bpreg8s8al7gi.apps.googleusercontent.com'}
               render={(renderProps) => (
                 <Button
                   className={classes.googleButton}

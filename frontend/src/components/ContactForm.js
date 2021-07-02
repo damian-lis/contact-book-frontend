@@ -27,7 +27,6 @@ const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
     name: '',
     email: '',
     phoneNo1: '',
-    phoneNo2: '',
     address: '',
     selectedImage: ''
   };
@@ -58,10 +57,17 @@ const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
   }, [contactDetails]);
 
   return (
-    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Contact Details</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
+    <Dialog
+      style={{ margin: '-20px' }}
+      maxWidth={'xs'}
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title">
+      <DialogTitle style={{ textAlign: 'center' }} id="form-dialog-title">
+        Contact Details
+      </DialogTitle>
+      <DialogContent style={{ overflow: 'hidden' }}>
+        <DialogContentText style={{ textAlign: 'center' }}>
           {`To ${currentId === 0 ? 'add' : 'update'} your contact details from here`}
         </DialogContentText>
         <TextField
@@ -70,6 +76,7 @@ const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
           label="Good Name"
           type="text"
           fullWidth
+          required
           value={contactData.name}
           onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
         />
@@ -93,15 +100,6 @@ const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
         />
         <TextField
           margin="dense"
-          id="phn2"
-          label="Alternative Phone Number"
-          type="number"
-          fullWidth
-          value={contactData.phoneNo2}
-          onChange={(e) => setContactData({ ...contactData, phoneNo2: e.target.value })}
-        />
-        <TextField
-          margin="dense"
           id="address"
           label="Your Address"
           type="text"
@@ -117,11 +115,15 @@ const ContactForm = ({ open, handleClose, currentId, setCurrentId }) => {
           />
         </div>
       </DialogContent>
-      <DialogActions>
-        <Button color="secondary" onClick={handleClose}>
+      <DialogActions style={{ justifyContent: 'center', margin: '15px 0' }}>
+        <Button
+          style={{ marginRight: '5px' }}
+          variant="contained"
+          color="secondary"
+          onClick={handleClose}>
           Close
         </Button>
-        <Button color="primary" onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           {`${currentId === 0 ? 'Add' : 'Update'} Contact`}
         </Button>
       </DialogActions>

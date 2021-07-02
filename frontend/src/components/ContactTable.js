@@ -37,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1)
   },
+  buttonWrapper: {
+    textAlign: 'right',
+    marginBottom: '20px',
+    [theme.breakpoints.down(550)]: {
+      textAlign: 'center'
+    }
+  },
   card: {
     margin: '10px'
   },
@@ -62,7 +69,7 @@ const ContactTable = ({ handleOpen, setCurrentId }) => {
 
   return (
     <>
-      <div style={{ textAlign: 'right' }}>
+      <div className={classes.buttonWrapper}>
         <Button
           variant="contained"
           color="primary"
@@ -84,8 +91,7 @@ const ContactTable = ({ handleOpen, setCurrentId }) => {
             },
             { title: 'Name', field: 'name' },
             { title: 'Email', field: 'email' },
-            { title: 'Phone No', field: 'phoneNo1' },
-            { title: 'Alt Phone No', field: 'phoneNo2' },
+            { title: 'Phone', field: 'phoneNo1' },
             { title: 'Address', field: 'address' },
             {
               title: 'Edit/Delete',
