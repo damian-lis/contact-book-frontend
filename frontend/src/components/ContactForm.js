@@ -61,13 +61,6 @@ const ContactForm = ({
       setInvalidName(true);
     }
 
-    if (
-      contactData.email === '' ||
-      !emailValidationRegexp.test(String(contactData.email).toLowerCase())
-    ) {
-      setInvalidEmail(true);
-    }
-
     if (contactData.phoneNo1 === '' || contactData.phoneNo1.length < 2) {
       setInvalidPhone(true);
     }
