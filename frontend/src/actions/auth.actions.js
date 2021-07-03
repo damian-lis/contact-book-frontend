@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH, LOGOUT } from 'constants/auth.constants';
+import { AUTH_SUCCESS, AUTH_FAILED, LOGOUT } from 'constants/auth.constants';
 
 export const signIn = (form) => async (dispatch) => {
   try {
@@ -12,11 +12,13 @@ export const signIn = (form) => async (dispatch) => {
     const { data } = await axios.post('/auth/login', form, config);
 
     dispatch({
-      type: AUTH,
+      type: AUTH_SUCCESS,
       payload: data
     });
   } catch (error) {
-    console.log(error.message);
+    dispatch({
+      type: AUTH_FAILED
+    });
   }
 };
 
@@ -31,11 +33,13 @@ export const signUp = (form) => async (dispatch) => {
     const { data } = await axios.post('/auth', form, config);
 
     dispatch({
-      type: AUTH,
+      type: AUTH_SUCCESS,
       payload: data
     });
   } catch (error) {
-    console.log(error.message);
+    dispatch({
+      type: AUTH_FAILED
+    });
   }
 };
 

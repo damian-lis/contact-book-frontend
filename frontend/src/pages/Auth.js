@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
+
 import {
   Container,
   Avatar,
@@ -13,7 +14,7 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Icon from 'components/Icon';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { signIn, signUp } from 'actions/auth.actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,17 @@ const Auth = ({ history }) => {
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
   const [authForm, setAuthForm] = useState(initialState);
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { userInfo, authFailedNumbers } = useSelector((state) => state.userLogin);
+  const [loader, setLoader] = useState(false);
+  const [googleLoader, setGoogleLoader] = useState(false);
+
+  const [authFailed, setAuthFailed] = useState(false);
+
+  const [invalidFirstName, setInvalidFirstName] = useState(false);
+  const [invalidLastName, setInvalidLastName] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
 
   const googleSuccess = async (res) => {
     console.log(res);
@@ -79,26 +90,64 @@ const Auth = ({ history }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const emailValidationRegexp =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (isSignUp) {
+      if (authForm.firstName === '' || authForm.firstName.length < 2) {
+        setInvalidFirstName(true);
+      }
+
+      if (authForm.lastName === '' || authForm.lastName.length < 2) {
+        setInvalidLastName(true);
+      }
+
+      if (authForm.password === '' || authForm.password.length < 5) {
+        setInvalidPassword(true);
+      }
+
+      if (authForm.password !== authForm.confirmPassword) {
+        setPasswordsDoNotMatch(true);
+      }
+
       if (
-        !authForm.firstName ||
-        !authForm.lastName ||
-        !authForm.email ||
-        !authForm.password ||
+        authForm.email === '' ||
+        !emailValidationRegexp.test(String(authForm.email).toLowerCase())
+      ) {
+        return setInvalidEmail(true);
+      }
+
+      if (
+        authForm.firstName === '' ||
+        authForm.lastName === '' ||
+        authForm.email === '' ||
+        authForm.password === '' ||
+        authForm.confirmPassword === '' ||
         authForm.password !== authForm.confirmPassword
       ) {
-        alert('Please fill all fields or password does not matched !');
-      } else {
-        e.currentTarget.textContent = 'Signing up ....';
-        dispatch(signUp(authForm));
+        return;
       }
+
+      dispatch(signUp(authForm));
+      setLoader(true);
     } else {
-      if (!authForm.email || !authForm.password) {
-        alert('Please fill all fields !');
-      } else {
-        e.currentTarget.textContent = 'Signing in ...';
-        dispatch(signIn(authForm));
+      if (authForm.password === '') {
+        setInvalidPassword(true);
       }
+
+      if (
+        authForm.email === '' ||
+        !emailValidationRegexp.test(String(authForm.email).toLowerCase())
+      ) {
+        return setInvalidEmail(true);
+      }
+
+      if (authForm.email === '' || authForm.password === '') {
+        return;
+      }
+
+      dispatch(signIn(authForm));
+      setLoader(true);
     }
   };
 
@@ -106,7 +155,13 @@ const Auth = ({ history }) => {
     if (userInfo) {
       history.push('/contact');
     }
-  }, [history, userInfo]);
+
+    if (userInfo === false) {
+      setAuthForm(initialState);
+      setAuthFailed(true);
+    }
+    setLoader(false);
+  }, [history, userInfo, authFailedNumbers]);
 
   return (
     <>
@@ -132,12 +187,17 @@ const Auth = ({ history }) => {
                       fullWidth
                       id="firstName"
                       label="First Name"
+                      value={authForm.firstName}
+                      helperText={invalidFirstName && 'Incorrect name.'}
+                      error={invalidFirstName ? true : false}
+                      disabled={loader || googleLoader ? true : false}
                       onChange={(e) =>
                         setAuthForm({
                           ...authForm,
                           firstName: e.target.value
                         })
                       }
+                      onFocus={() => setInvalidFirstName(false)}
                     />
                   </Grid>
 
@@ -150,12 +210,16 @@ const Auth = ({ history }) => {
                       fullWidth
                       id="lastName"
                       label="Last Name"
+                      value={authForm.lastName}
+                      helperText={invalidLastName && 'Incorrect last name.'}
+                      error={invalidLastName ? true : false}
                       onChange={(e) =>
                         setAuthForm({
                           ...authForm,
                           lastName: e.target.value
                         })
                       }
+                      onFocus={() => setInvalidLastName(false)}
                     />
                   </Grid>
                 </>
@@ -170,12 +234,20 @@ const Auth = ({ history }) => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={authForm.email}
+                  error={authFailed || invalidEmail ? true : false}
+                  helperText={invalidEmail && 'Incorrect email.'}
+                  disabled={loader || googleLoader ? true : false}
                   onChange={(e) =>
                     setAuthForm({
                       ...authForm,
                       email: e.target.value
                     })
                   }
+                  onFocus={() => {
+                    setAuthFailed(false);
+                    setInvalidEmail(false);
+                  }}
                 />
               </Grid>
 
@@ -189,12 +261,26 @@ const Auth = ({ history }) => {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value={authForm.password}
+                  helperText={
+                    authFailed
+                      ? 'Incorrect email or password.'
+                      : invalidPassword
+                      ? 'Incorrect password'
+                      : ''
+                  }
+                  error={authFailed || invalidPassword ? true : false}
+                  disabled={loader || googleLoader ? true : false}
                   onChange={(e) =>
                     setAuthForm({
                       ...authForm,
                       password: e.target.value
                     })
                   }
+                  onFocus={() => {
+                    setAuthFailed(false);
+                    setInvalidPassword(false);
+                  }}
                 />
               </Grid>
 
@@ -209,12 +295,16 @@ const Auth = ({ history }) => {
                     type="password"
                     id="conf_password"
                     autoComplete="confirm-password"
+                    value={authForm.confirmPassword}
+                    helperText={passwordsDoNotMatch && 'Passwords do not match'}
+                    error={passwordsDoNotMatch ? true : false}
                     onChange={(e) =>
                       setAuthForm({
                         ...authForm,
                         confirmPassword: e.target.value
                       })
                     }
+                    onFocus={() => setPasswordsDoNotMatch(false)}
                   />
                 </Grid>
               )}
@@ -226,8 +316,20 @@ const Auth = ({ history }) => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={loader || googleLoader ? true : false}
               onClick={handleSubmit}>
-              {`${isSignUp ? 'Sign Up' : 'Sign In'}`}
+              {`${loader ? '' : isSignUp ? 'Sign Up' : 'Sign In'}`}
+              {loader && (
+                <CircularProgress
+                  style={{
+                    color: 'white',
+                    opacity: 0.6,
+                    width: '24px',
+                    height: '24px'
+                  }}
+                  disableShrink
+                />
+              )}
             </Button>
 
             <GoogleLogin
@@ -237,25 +339,62 @@ const Auth = ({ history }) => {
                   className={classes.googleButton}
                   color="primary"
                   fullWidth
-                  startIcon={<Icon />}
                   variant="contained"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}>
-                  Google Log In
+                  onClick={() => {
+                    renderProps.onClick();
+                    setGoogleLoader(true);
+                    setAuthFailed(false);
+                  }}
+                  disabled={googleLoader || loader || renderProps.disabled ? true : false}>
+                  {googleLoader ? (
+                    <CircularProgress
+                      style={{
+                        color: 'white',
+                        opacity: 0.6,
+                        width: '24px',
+                        height: '24px'
+                      }}
+                      disableShrink
+                    />
+                  ) : (
+                    'Google log in'
+                  )}
                 </Button>
               )}
               onSuccess={googleSuccess}
-              onFaliure={googleFaliure}
+              onFaliure={() => {
+                setGoogleLoader(false);
+                setLoader(false);
+                googleFaliure();
+                alert('coś poszło nie tak, spróbuj ponownie');
+              }}
               cookiePolicy="single_host_origin"
             />
 
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link to="#" variant="body2" onClick={() => setIsSignUp((val) => !val)}>{`${
-                  isSignUp ? 'Already have an account? Sign in' : 'Dont have an account? Sign up'
-                }`}</Link>
+            {!loader || !googleLoader ? (
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link
+                    to="#"
+                    variant="body2"
+                    onClick={() => {
+                      setIsSignUp((val) => !val);
+                      setInvalidEmail(false);
+                      setAuthFailed(false);
+                      setInvalidEmail(false);
+                      setInvalidPassword(false);
+                      setPasswordsDoNotMatch(false);
+                      setAuthForm(initialState);
+                    }}>{`${
+                    loader || googleLoader
+                      ? ''
+                      : isSignUp
+                      ? 'Already have an account? Sign in'
+                      : 'Dont have an account? Sign up'
+                  }`}</Link>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : null}
           </form>
         </div>
       </Container>
