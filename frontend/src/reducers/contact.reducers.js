@@ -6,7 +6,7 @@ import {
   CONTACT_UPDATE
 } from 'constants/contact.constants';
 
-export const contactReducer = (contacts = [], action) => {
+export const contactReducer = (contacts = null, action) => {
   switch (action.type) {
     case CONTACT_FETCH_ALL:
       return action.payload;

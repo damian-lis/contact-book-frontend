@@ -10,6 +10,7 @@ const Contact = () => {
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
   const [editVariant, setEditVariant] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const handleOpen = ({ editVariant } = false) => {
     setOpen(true);
@@ -33,8 +34,14 @@ const Contact = () => {
         setCurrentId={setCurrentId}
         editVariant={editVariant}
         setEditVariant={setEditVariant}
+        setLoader={setLoader}
       />
-      <ContactTable handleOpen={handleOpen} setCurrentId={setCurrentId} />
+      <ContactTable
+        handleOpen={handleOpen}
+        setCurrentId={setCurrentId}
+        loader={loader}
+        setLoader={setLoader}
+      />
     </div>
   );
 };

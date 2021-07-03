@@ -26,7 +26,8 @@ const ContactForm = ({
   currentId,
   setCurrentId,
   editVariant,
-  setEditVariant
+  setEditVariant,
+  setLoader
 }) => {
   const initialState = {
     name: '',
@@ -91,7 +92,7 @@ const ContactForm = ({
       : dispatch(updateContact(currentId, contactData));
 
     clearData();
-
+    setLoader(true);
     setFormSubmit(true);
   };
 
