@@ -9,9 +9,11 @@ const Contact = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
+  const [editVariant, setEditVariant] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = ({ editVariant } = false) => {
     setOpen(true);
+    editVariant && setEditVariant(true);
   };
 
   const handleClose = () => {
@@ -29,6 +31,8 @@ const Contact = () => {
         handleClose={handleClose}
         currentId={currentId}
         setCurrentId={setCurrentId}
+        editVariant={editVariant}
+        setEditVariant={setEditVariant}
       />
       <ContactTable handleOpen={handleOpen} setCurrentId={setCurrentId} />
     </div>

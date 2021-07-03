@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MaterialTable from 'material-table';
 import { deleteContact, deleteContacts } from 'actions/contact.actions';
+import Alert from '@material-ui/lab/Alert';
 
 const EditDeleteBtn = (rowData, handleDeleteContact, handleOpen, setCurrentId) =>
   rowData && (
@@ -14,7 +15,7 @@ const EditDeleteBtn = (rowData, handleDeleteContact, handleOpen, setCurrentId) =
       <IconButton
         onClick={() => {
           setCurrentId(rowData._id);
-          handleOpen();
+          handleOpen({ editVariant: true });
         }}
         color="primary">
         <EditIcon />
@@ -30,7 +31,11 @@ const EditDeleteBtn = (rowData, handleDeleteContact, handleOpen, setCurrentId) =
   );
 
 const SelectedImage = (rowData) => (
-  <img alt="Userimage" style={{ height: 36, borderRadius: '50%' }} src={rowData.selectedImage} />
+  <img
+    alt="Userimage"
+    style={{ height: 36, width: 36, borderRadius: '50%' }}
+    src={rowData.selectedImage}
+  />
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -55,20 +60,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ContactTable = ({ handleOpen, setCurrentId }) => {
+  const [deleteContactAlert, setDeleteContactAlert] = useState(false);
+  const [deleteContactsAlert, setDeleteContactsAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
   const classes = useStyles();
   const contacts = useSelector((state) => state.contacts);
   const dispatch = useDispatch();
 
   const handleDeleteContact = (id) => {
     dispatch(deleteContact(id));
+    setShowAlert(true);
+    setDeleteContactAlert(true);
   };
 
   const handleDeleteContacts = (ids) => {
     dispatch(deleteContacts(ids));
+    setShowAlert(true);
+    setDeleteContactsAlert(true);
   };
 
   return (
     <>
+      {showAlert && (
+        <Alert
+          action={
+            <Button
+              onClick={() => {
+                setDeleteContactAlert(false);
+                setDeleteContactsAlert(false);
+                setShowAlert(false);
+              }}
+              color="inherit"
+              size="small">
+              X
+            </Button>
+          }
+          severity="success">
+          {deleteContactAlert && 'Contact deleted!'}
+          {deleteContactsAlert && 'Contacts deleted!'}
+        </Alert>
+      )}
       <div className={classes.buttonWrapper}>
         <Button
           variant="contained"
