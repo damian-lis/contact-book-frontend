@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Header = ({ userInfo }) => {
+const Header = ({ userInfo, success }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -44,11 +44,14 @@ const Header = ({ userInfo }) => {
     e.preventDefault();
     dispatch(logout());
   };
+
   return (
     <div>
-      <AppBar position="static" className={userInfo ? classes.barFix : classes.bar}>
+      <AppBar
+        position="static"
+        className={success !== undefined && success !== false ? classes.barFix : classes.bar}>
         <Toolbar>
-          {userInfo ? (
+          {success !== undefined && success !== false ? (
             <>
               <Typography variant="h6" className={classes.name}>
                 {`Hello, ${userInfo.firstName} ${userInfo.lastName}`}

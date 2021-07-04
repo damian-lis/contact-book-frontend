@@ -6,11 +6,11 @@ import Auth from 'pages/Auth';
 import Header from 'components/Header';
 
 function App() {
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { userInfo, success } = useSelector((state) => state.userLogin);
 
   return (
     <Router>
-      <Header userInfo={userInfo} />
+      <Header userInfo={userInfo} success={success} />
       <Container>
         <Route path="/" exact component={Auth} />
         <Route path="/contact" exact component={Contact} />

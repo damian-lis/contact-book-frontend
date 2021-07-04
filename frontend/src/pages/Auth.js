@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
-
 import {
   Container,
   Avatar,
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   googleButton: {
     marginBottom: theme.spacing(2),
-    backgroundColor: 'red'
+    backgroundColor: 'white'
   }
 }));
 
@@ -54,7 +53,7 @@ const Auth = ({ history }) => {
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
   const [authForm, setAuthForm] = useState(initialState);
-  const { userInfo, authFailedNumbers } = useSelector((state) => state.userLogin);
+  const { userInfo, authFailedNumbers, success } = useSelector((state) => state.userLogin);
   const [loader, setLoader] = useState(false);
   const [googleLoader, setGoogleLoader] = useState(false);
 
@@ -66,8 +65,7 @@ const Auth = ({ history }) => {
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [passwordsDoNotMatch, setPasswordsDoNotMatch] = useState(false);
 
-  const googleSuccess = async (res) => {
-    console.log(res);
+  const googleSuccess = async (res, isSignUp) => {
     const result = res?.profileObj;
 
     try {
@@ -78,7 +76,7 @@ const Auth = ({ history }) => {
         password: result.googleId
       };
 
-      await dispatch(signUp(form));
+      (await isSignUp) ? dispatch(signUp(form)) : dispatch(signIn(form));
     } catch (error) {
       console.log(error);
     }
@@ -152,15 +150,15 @@ const Auth = ({ history }) => {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      history.push('/contact');
+    if (success === true) {
+      return history.push('/contact');
     }
 
-    if (userInfo === false) {
-      setAuthForm(initialState);
-      setAuthFailed(true);
+    if (success === false) {
+      setLoader(false);
+      setGoogleLoader(false);
+      return setAuthFailed(true);
     }
-    setLoader(false);
   }, [history, userInfo, authFailedNumbers]);
 
   return (
@@ -213,6 +211,7 @@ const Auth = ({ history }) => {
                       value={authForm.lastName}
                       helperText={invalidLastName && 'Incorrect last name.'}
                       error={invalidLastName ? true : false}
+                      disabled={loader || googleLoader ? true : false}
                       onChange={(e) =>
                         setAuthForm({
                           ...authForm,
@@ -236,7 +235,9 @@ const Auth = ({ history }) => {
                   autoComplete="email"
                   value={authForm.email}
                   error={authFailed || invalidEmail ? true : false}
-                  helperText={invalidEmail && 'Incorrect email.'}
+                  helperText={
+                    invalidEmail ? 'Incorrect email.' : authFailed && isSignUp ? userInfo : ''
+                  }
                   disabled={loader || googleLoader ? true : false}
                   onChange={(e) =>
                     setAuthForm({
@@ -263,13 +264,9 @@ const Auth = ({ history }) => {
                   autoComplete="current-password"
                   value={authForm.password}
                   helperText={
-                    authFailed
-                      ? 'Incorrect email or password.'
-                      : invalidPassword
-                      ? 'Incorrect password'
-                      : ''
+                    authFailed && !isSignUp ? userInfo : invalidPassword ? 'Incorrect password' : ''
                   }
-                  error={authFailed || invalidPassword ? true : false}
+                  error={(authFailed && !isSignUp) || invalidPassword ? true : false}
                   disabled={loader || googleLoader ? true : false}
                   onChange={(e) =>
                     setAuthForm({
@@ -298,6 +295,7 @@ const Auth = ({ history }) => {
                     value={authForm.confirmPassword}
                     helperText={passwordsDoNotMatch && 'Passwords do not match'}
                     error={passwordsDoNotMatch ? true : false}
+                    disabled={loader || googleLoader ? true : false}
                     onChange={(e) =>
                       setAuthForm({
                         ...authForm,
@@ -337,7 +335,6 @@ const Auth = ({ history }) => {
               render={(renderProps) => (
                 <Button
                   className={classes.googleButton}
-                  color="primary"
                   fullWidth
                   variant="contained"
                   onClick={() => {
@@ -357,11 +354,18 @@ const Auth = ({ history }) => {
                       disableShrink
                     />
                   ) : (
-                    'Google log in'
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <img style={{ width: 20 }} alt="googleIcon" src="images/google.svg" />{' '}
+                      <span style={{ marginLeft: 5 }}>
+                        {isSignUp ? 'google sign up' : 'google sign in'}
+                      </span>
+                    </div>
                   )}
                 </Button>
               )}
-              onSuccess={googleSuccess}
+              onSuccess={(res) => googleSuccess(res, isSignUp)}
+              onClick={() => window}
               onFaliure={() => {
                 setGoogleLoader(false);
                 setLoader(false);
@@ -379,6 +383,8 @@ const Auth = ({ history }) => {
                     variant="body2"
                     onClick={() => {
                       setIsSignUp((val) => !val);
+                      setInvalidFirstName(false);
+                      setInvalidLastName(false);
                       setInvalidEmail(false);
                       setAuthFailed(false);
                       setInvalidEmail(false);
