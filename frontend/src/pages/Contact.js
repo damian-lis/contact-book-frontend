@@ -35,6 +35,7 @@ const Contact = () => {
         editVariant={editVariant}
         setEditVariant={setEditVariant}
         setLoader={setLoader}
+        loader={loader}
       />
       <ContactTable
         handleOpen={handleOpen}

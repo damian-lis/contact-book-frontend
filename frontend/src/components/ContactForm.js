@@ -12,6 +12,7 @@ import {
   Button
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import CloseIcon from '@material-ui/icons/Close';
 import { createContact, updateContact } from 'actions/contact.actions';
 
 const useStyles = makeStyles(() => ({
@@ -27,7 +28,8 @@ const ContactForm = ({
   setCurrentId,
   editVariant,
   setEditVariant,
-  setLoader
+  setLoader,
+  loader
 }) => {
   const initialState = {
     name: '',
@@ -193,7 +195,7 @@ const ContactForm = ({
           </Button>
         </DialogActions>
       </Dialog>
-      {formSubmit && (
+      {formSubmit && !loader && (
         <Alert
           action={
             <Button
@@ -201,9 +203,8 @@ const ContactForm = ({
                 setFormSubmit(false);
                 setEditVariant(false);
               }}
-              color="inherit"
-              size="small">
-              X
+              color="inherit">
+              <CloseIcon />
             </Button>
           }
           severity="success">

@@ -9,6 +9,7 @@ import MaterialTable from 'material-table';
 import { deleteContact, deleteContacts } from 'actions/contact.actions';
 import Alert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@material-ui/icons/Close';
 
 const EditDeleteBtn = (rowData, handleDeleteContact, handleOpen, setCurrentId) =>
   rowData && (
@@ -96,7 +97,7 @@ const ContactTable = ({ handleOpen, setCurrentId, loader, setLoader }) => {
 
   return (
     <>
-      {showAlert && (
+      {showAlert && !loader && (
         <Alert
           action={
             <Button
@@ -105,9 +106,8 @@ const ContactTable = ({ handleOpen, setCurrentId, loader, setLoader }) => {
                 setDeleteContactsAlert(false);
                 setShowAlert(false);
               }}
-              color="inherit"
-              size="small">
-              X
+              color="inherit">
+              <CloseIcon />
             </Button>
           }
           severity="success">
