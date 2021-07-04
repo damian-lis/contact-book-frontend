@@ -17,7 +17,8 @@ export const signIn = (form) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: AUTH_FAILED
+      type: AUTH_FAILED,
+      payload: error.response.data.message
     });
   }
 };
@@ -38,7 +39,8 @@ export const signUp = (form) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: AUTH_FAILED
+      type: AUTH_FAILED,
+      payload: error.response.data.message
     });
   }
 };

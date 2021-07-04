@@ -4,10 +4,15 @@ export const authReducer = (state = {}, action) => {
   switch (action.type) {
     case AUTH_SUCCESS:
       localStorage.setItem('userInfo', JSON.stringify({ ...action?.payload }));
-      return { ...state, userInfo: action.payload };
+      return { ...state, userInfo: action.payload, success: true };
 
     case AUTH_FAILED:
-      return { ...state, authFailedNumbers: state.authFailedNumbers + 1, userInfo: false };
+      return {
+        ...state,
+        authFailedNumbers: state.authFailedNumbers + 1,
+        userInfo: action.payload,
+        success: false
+      };
 
     case LOGOUT:
       return { ...state, userInfo: null };
