@@ -1,19 +1,22 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Container } from '@material-ui/core';
-import Contact from 'pages/Contact';
+import Contacts from 'pages/Contacts';
 import Auth from 'pages/Auth';
 import Header from 'components/Header';
+import AuthContext from 'contexts/auth.context';
+import ContactsContext from 'contexts/contacts.context';
 
 function App() {
-  const { userInfo, success } = useSelector((state) => state.userLogin);
-
   return (
     <Router>
-      <Header userInfo={userInfo} success={success} />
+      <Header />
       <Container>
-        <Route path="/" exact component={Auth} />
-        <Route path="/contact" exact component={Contact} />
+        <AuthContext.Provider>
+          <Route path="/" exact component={Auth} />
+        </AuthContext.Provider>
+        <ContactsContext.Provider>
+          <Route path="/contact" exact component={Contacts} />
+        </ContactsContext.Provider>
       </Container>
     </Router>
   );

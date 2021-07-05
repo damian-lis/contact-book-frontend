@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { AUTH_SUCCESS, AUTH_FAILED, LOGOUT } from 'constants/auth.constants';
+import { AUTH_SUCCESS, AUTH_FAILED, LOGOUT, AUTH_REQUEST } from 'constants/auth.constants';
 
-export const signIn = (form) => async (dispatch) => {
+export const signIn = (form, google) => async (dispatch) => {
+  dispatch({ type: AUTH_REQUEST, payload: google ? true : false });
+
   try {
     const config = {
       headers: {
@@ -23,7 +25,8 @@ export const signIn = (form) => async (dispatch) => {
   }
 };
 
-export const signUp = (form) => async (dispatch) => {
+export const signUp = (form, google) => async (dispatch) => {
+  dispatch({ type: AUTH_REQUEST, payload: google ? true : false });
   try {
     const config = {
       headers: {
