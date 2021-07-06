@@ -60,7 +60,7 @@ const AuthForm = ({ children }) => {
     if (error) {
       setAuthFailed(true);
     }
-  }, [message, authFailedNumbers]);
+  }, [error, authFailedNumbers]);
 
   return (
     <form className={classes.form} noValidate>
