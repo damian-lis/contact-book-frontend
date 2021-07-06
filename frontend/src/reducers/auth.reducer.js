@@ -29,7 +29,7 @@ export const authReducer = (state = {}, action) => {
         userInfo: null,
         loading: false,
         loadingGoogle: false,
-        errror: true
+        error: true
       };
 
     case LOGOUT:
