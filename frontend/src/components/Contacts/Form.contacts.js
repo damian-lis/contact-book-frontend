@@ -13,7 +13,7 @@ import {
 import { createContact, updateContact } from 'actions/contacts.actions';
 import { initialState } from 'data/contacts.data';
 import contactValidation from 'helpers/contactValidation.helper';
-import useStyles from './styles';
+import useStyles from './styles.contacts';
 import ContactsContext from 'contexts/contacts.context';
 
 const ContactsForm = () => {
@@ -91,7 +91,7 @@ const ContactsForm = () => {
   return (
     <>
       <Dialog
-        className={classes.dialog}
+        className={classes.dialogContainer}
         maxWidth={'xs'}
         open={open}
         aria-labelledby="form-dialog-title">
@@ -152,7 +152,7 @@ const ContactsForm = () => {
             onChange={(e) => handleFieldChange(e, 'address')}
             onFocus={() => handleFieldFocus('address')}
           />
-          <div className={classes.file}>
+          <div className={classes.dialogFile}>
             <FileBase
               type="file"
               multiple={false}
@@ -162,7 +162,7 @@ const ContactsForm = () => {
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
           <Button
-            className={classes.buttonClose}
+            className={classes.dialogButtonClose}
             variant="contained"
             color="secondary"
             onClick={handleButtonClose}>

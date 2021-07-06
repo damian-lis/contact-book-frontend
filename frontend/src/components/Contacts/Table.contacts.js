@@ -9,9 +9,8 @@ import Alert from '@material-ui/lab/Alert';
 import Loader from 'components/Loader';
 import CloseIcon from '@material-ui/icons/Close';
 import ContactsContext from 'contexts/contacts.context';
-import SelectedImage from 'components/SelectedImage';
-import EditDeleteBtn from 'components/EditDeleteBtn';
-import useStyles from './styles';
+import { EditDeleteBtn, SelectedImage } from './index';
+import useStyles from './styles.contacts';
 
 const ContactTable = () => {
   const {
@@ -65,7 +64,7 @@ const ContactTable = () => {
       {!loading && showAlert && (
         <Alert
           severity={error ? 'error' : 'success'}
-          className={classes.alert}
+          className={classes.tableAlert}
           action={
             <Button onClick={handleButtonAlertClick} color="inherit" s>
               <CloseIcon />
@@ -74,12 +73,12 @@ const ContactTable = () => {
           {message}
         </Alert>
       )}
-      <div className={classes.buttonWrapper}>
+      <div className={classes.tableButtonWrapper}>
         <Button
           variant="contained"
           color="primary"
           size="large"
-          className={classes.button}
+          className={classes.tableButton}
           startIcon={<AddIcon />}
           onClick={handleOpen}>
           Add Contact
@@ -88,8 +87,8 @@ const ContactTable = () => {
       <div style={{ position: 'relative' }}>
         {loading && (
           <div>
-            <div className={classes.loaderBackground}></div>
-            <div className={classes.loaderContainer}>
+            <div className={classes.tableLoaderBackground}></div>
+            <div className={classes.tableLoaderContainer}>
               <Loader type="tableLoader" />
             </div>
           </div>

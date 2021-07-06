@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import ContactsForm from 'components/ContactsForm';
-import ContactsTable from 'components/ContactsTable';
 import { fetchContacts } from 'actions/contacts.actions';
+import { Form, Table } from 'components/Contacts';
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -13,8 +12,8 @@ const Contacts = () => {
 
   return (
     <div>
-      <ContactsForm />
-      <ContactsTable />
+      <Form />
+      <Table />
     </div>
   );
 };

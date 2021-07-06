@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, CssBaseline } from '@material-ui/core';
-import useStyles from './styles';
+import useStyles from './styles.auth';
 
 const AuthContainer = ({ children }) => {
   const classes = useStyles();
@@ -8,7 +8,7 @@ const AuthContainer = ({ children }) => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>{children}</div>
+      <div className={classes.wrapper}>{children}</div>
     </Container>
   );
 };

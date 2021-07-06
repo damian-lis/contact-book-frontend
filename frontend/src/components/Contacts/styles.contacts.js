@@ -1,25 +1,39 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-  button: {
+  dialogContainer: {
+    margin: '-20px'
+  },
+  dialogFile: {
+    marginTop: '15px'
+  },
+  dialogTitle: {
+    textAlign: 'center'
+  },
+  dialogContent: {
+    overflow: 'hidden'
+  },
+  dialogContentText: {
+    textAlign: 'center'
+  },
+  dialogActions: {
+    justifyContent: 'center',
+    margin: '15px 0'
+  },
+  dialogButtonClose: {
+    marginRight: '5px'
+  },
+  tableButton: {
     margin: theme.spacing(1)
   },
-  buttonWrapper: {
+  tableButtonWrapper: {
     textAlign: 'right',
     marginBottom: '20px',
     [theme.breakpoints.down(550)]: {
       textAlign: 'center'
     }
   },
-  card: {
-    margin: '10px'
-  },
-  title: {
-    flexGrow: 1,
-    textAlign: 'center',
-    fontSize: '1.96rem'
-  },
-  loaderBackground: {
+  tableLoaderBackground: {
     position: 'absolute',
     zIndex: 100,
     backgroundColor: 'rgb(250,250,250)',
@@ -27,7 +41,7 @@ export default makeStyles((theme) => ({
     width: '100%',
     height: '100%'
   },
-  loaderContainer: {
+  tableLoaderContainer: {
     position: 'absolute',
     zIndex: 100,
     width: '100%',
@@ -36,7 +50,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  alert: {
+  tableAlert: {
     marginBottom: 10
   }
 }));

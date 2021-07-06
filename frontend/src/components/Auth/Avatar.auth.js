@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Avatar, Typography } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import useStyles from './styles';
+import useStyles from './styles.auth';
 import AuthContext from 'contexts/auth.context';
 
 const AuthAvatar = () => {

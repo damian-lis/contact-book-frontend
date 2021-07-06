@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from '@material-ui/core';
-import Contacts from 'pages/Contacts';
-import Auth from 'pages/Auth';
+import Contacts from 'pages/Contacts.page';
+import Auth from 'pages/Auth.page';
 import Header from 'components/Header';
 import AuthContext from 'contexts/auth.context';
 import ContactsContext from 'contexts/contacts.context';

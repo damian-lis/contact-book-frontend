@@ -7,7 +7,7 @@ import { initialState } from 'data/auth.data';
 import AuthContext from 'contexts/auth.context';
 import authValidation from 'helpers/authValidation.helper';
 import Loader from 'components/Loader';
-import useStyles from './styles';
+import useStyles from './styles.auth';
 
 const AuthForm = ({ children }) => {
   const { isSignUp, setIsSignUp, authForm, setAuthForm, authFailed, setAuthFailed } = useContext(
@@ -178,7 +178,7 @@ const AuthForm = ({ children }) => {
         fullWidth
         variant="contained"
         color="primary"
-        className={classes.submit}
+        className={classes.submitButton}
         disabled={loading || loadingGoogle ? true : false}
         onClick={handleSubmit}>
         {loading ? <Loader type="authLoader" /> : isSignUp ? 'Sign Up' : 'Sign In'}

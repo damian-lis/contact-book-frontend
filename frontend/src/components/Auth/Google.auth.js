@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
 import { GOOGLE_ID } from 'env';
 import AuthContext from 'contexts/auth.context';
-import useStyles from './styles';
+import useStyles from './styles.auth';
 import { signIn, signUp } from 'actions/auth.actions';
 import Loader from 'components/Loader';
 
@@ -45,7 +45,7 @@ const AuthGoogle = () => {
       clientId={process.env.GOOGLE_ID || GOOGLE_ID}
       render={(renderProps) => (
         <Button
-          className={classes.button}
+          className={classes.googleButton}
           fullWidth
           variant="contained"
           onClick={() => handleClick(renderProps)}
@@ -53,9 +53,9 @@ const AuthGoogle = () => {
           {loadingGoogle ? (
             <Loader type="authLoader" />
           ) : (
-            <div className={classes.buttonContent}>
-              <img className={classes.buttonImage} alt="googleIcon" src="images/google.svg" />{' '}
-              <span className={classes.buttonText}>
+            <div className={classes.googleButtonContent}>
+              <img className={classes.googleButtonImage} alt="googleIcon" src="images/google.svg" />{' '}
+              <span className={classes.googleButtonText}>
                 {isSignUp ? 'google sign up' : 'google sign in'}
               </span>
             </div>
