@@ -64,12 +64,13 @@ const ContactTable = () => {
     <>
       {!loading && showAlert && (
         <Alert
+          severity={error ? 'error' : 'success'}
+          className={classes.alert}
           action={
-            <Button onClick={handleButtonAlertClick} color="inherit">
+            <Button onClick={handleButtonAlertClick} color="inherit" s>
               <CloseIcon />
             </Button>
-          }
-          severity={error ? 'error' : 'success'}>
+          }>
           {message}
         </Alert>
       )}

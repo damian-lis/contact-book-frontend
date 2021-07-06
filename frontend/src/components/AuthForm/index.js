@@ -5,16 +5,16 @@ import { Button, TextField, Grid } from '@material-ui/core';
 import { signIn, signUp } from 'actions/auth.actions';
 import { initialState } from 'data/auth.data';
 import AuthContext from 'contexts/auth.context';
-import useStyles from './styles';
 import authValidation from 'helpers/authValidation.helper';
 import Loader from 'components/Loader';
+import useStyles from './styles';
 
 const AuthForm = ({ children }) => {
   const { isSignUp, setIsSignUp, authForm, setAuthForm, authFailed, setAuthFailed } = useContext(
     AuthContext.store
   );
 
-  const { userInfo, authFailedNumbers, message, loading, loadingGoogle } = useSelector(
+  const { authFailedNumbers, message, loading, loadingGoogle, error } = useSelector(
     (state) => state.auth
   );
 
@@ -57,13 +57,10 @@ const AuthForm = ({ children }) => {
   };
 
   useEffect(() => {
-    if (message) {
+    if (error) {
       setAuthFailed(true);
     }
-    if (userInfo) {
-      resetForm();
-    }
-  }, [message, userInfo, authFailedNumbers]);
+  }, [message, authFailedNumbers]);
 
   return (
     <form className={classes.form} noValidate>
@@ -192,7 +189,7 @@ const AuthForm = ({ children }) => {
       {!loading || !loadingGoogle ? (
         <Grid container justify="flex-end">
           <Grid item>
-            <Link to="#" variant="body2" onClick={resetForm}>
+            <Link to="#" variant="body2" onClick={() => resetForm(true)}>
               {loading
                 ? ''
                 : isSignUp

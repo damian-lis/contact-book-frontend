@@ -9,15 +9,15 @@ import ContactsContext from 'contexts/contacts.context';
 function App() {
   return (
     <Router>
-      <Header />
-      <Container>
-        <AuthContext.Provider>
-          <Route path="/" exact component={Auth} />
-        </AuthContext.Provider>
+      <AuthContext.Provider>
         <ContactsContext.Provider>
-          <Route path="/contact" exact component={Contacts} />
+          <Header />
+          <Container>
+            <Route path="/" exact component={Auth} />
+            <Route path="/contact" exact component={Contacts} />
+          </Container>
         </ContactsContext.Provider>
-      </Container>
+      </AuthContext.Provider>
     </Router>
   );
 }

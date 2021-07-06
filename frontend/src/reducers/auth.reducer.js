@@ -6,7 +6,8 @@ export const authReducer = (state = {}, action) => {
       return {
         ...state,
         loading: !action.payload,
-        loadingGoogle: action.payload
+        loadingGoogle: action.payload,
+        error: false
       };
 
     case AUTH_SUCCESS:
@@ -16,7 +17,8 @@ export const authReducer = (state = {}, action) => {
         userInfo: action.payload.user,
         message: '',
         loading: false,
-        loadingGoogle: false
+        loadingGoogle: false,
+        error: false
       };
 
     case AUTH_FAILED:
@@ -26,11 +28,19 @@ export const authReducer = (state = {}, action) => {
         message: action.payload,
         userInfo: null,
         loading: false,
-        loadingGoogle: false
+        loadingGoogle: false,
+        errror: true
       };
 
     case LOGOUT:
-      return { ...state, userInfo: null, message: '', loading: false, loadingGoogle: false };
+      return {
+        ...state,
+        userInfo: null,
+        message: '',
+        loading: false,
+        loadingGoogle: false,
+        error: false
+      };
 
     default:
       return state;

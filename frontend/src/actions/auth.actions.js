@@ -18,9 +18,10 @@ export const signIn = (form, google) => async (dispatch) => {
       payload: data
     });
   } catch (error) {
+    console.log(error.response.data.message);
     dispatch({
       type: AUTH_FAILED,
-      payload: error.response.data.message
+      payload: error ? error.response.data.message : 'Something went wrong with sigin in'
     });
   }
 };
@@ -41,9 +42,10 @@ export const signUp = (form, google) => async (dispatch) => {
       payload: data
     });
   } catch (error) {
+    console.log(error.response.data.message);
     dispatch({
       type: AUTH_FAILED,
-      payload: error.response.data.message
+      payload: error ? error.response.data.message : 'Something went wrong with sigin up'
     });
   }
 };

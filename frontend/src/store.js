@@ -19,7 +19,8 @@ const initialState = {
     authFailedNumbers: 0,
     message: '',
     loading: false,
-    loadingGoogle: false
+    loadingGoogle: false,
+    error: false
   },
   contacts: { list: null, message: '', error: false, loading: false }
 };
