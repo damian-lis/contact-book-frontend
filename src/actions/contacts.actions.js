@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import {
   CONTACT_CREATE,
   CONTACT_FETCH_ALL,
@@ -13,6 +12,7 @@ import {
   CONTACT_UPDATE_FAIL,
   CONTACTS_REQUEST
 } from 'constants/contacts.constants';
+import { BACKEND_SERVER } from 'utils/urls';
 
 export const createContact = (form) => async (dispatch, getState) => {
   dispatch({ type: CONTACTS_REQUEST });
@@ -28,7 +28,7 @@ export const createContact = (form) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.post('/contact', form, config);
+    const { data } = await axios.post(`${BACKEND_SERVER}/contact`, form, config);
 
     dispatch({ type: CONTACT_CREATE, payload: data });
   } catch (error) {
@@ -51,7 +51,7 @@ export const fetchContacts = () => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.get('/contact', config);
+    const { data } = await axios.get(`${BACKEND_SERVER}/contact`, config);
 
     dispatch({ type: CONTACT_FETCH_ALL, payload: data });
   } catch (error) {
@@ -73,7 +73,7 @@ export const deleteContact = (id) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.delete(`/contact/${id}`, config);
+    const { data } = await axios.delete(`${BACKEND_SERVER}/contact/${id}`, config);
 
     dispatch({ type: CONTACT_DELETE, payload: { id, message: data.message } });
   } catch (error) {
@@ -95,7 +95,7 @@ export const deleteContacts = (ids) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.post(`/contact/delete`, ids, config);
+    const { data } = await axios.post(`${BACKEND_SERVER}/contact/delete`, ids, config);
 
     dispatch({ type: CONTACT_DELETE_ALL, payload: { ids, message: data.message } });
   } catch (error) {
@@ -117,7 +117,7 @@ export const updateContact = (id, form) => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await axios.put(`/contact/${id}`, form, config);
+    const { data } = await axios.put(`${BACKEND_SERVER}/contact/${id}`, form, config);
 
     dispatch({ type: CONTACT_UPDATE, payload: data });
   } catch (error) {

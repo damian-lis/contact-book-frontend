@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AUTH_SUCCESS, AUTH_FAILED, LOGOUT, AUTH_REQUEST } from 'constants/auth.constants';
+import { BACKEND_SERVER } from 'utils/urls';
 
 export const signIn = (form, google) => async (dispatch) => {
   dispatch({ type: AUTH_REQUEST, payload: google ? true : false });
@@ -11,7 +12,7 @@ export const signIn = (form, google) => async (dispatch) => {
       }
     };
 
-    const { data } = await axios.post('/auth/login', form, config);
+    const { data } = await axios.post(`${BACKEND_SERVER}/auth/login`, form, config);
 
     dispatch({
       type: AUTH_SUCCESS,
@@ -35,7 +36,7 @@ export const signUp = (form, google) => async (dispatch) => {
       }
     };
 
-    const { data } = await axios.post('/auth', form, config);
+    const { data } = await axios.post(`${BACKEND_SERVER}/auth`, form, config);
 
     dispatch({
       type: AUTH_SUCCESS,
