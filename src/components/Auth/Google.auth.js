@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import { Button } from '@material-ui/core';
-import { GOOGLE_ID } from 'env';
 import AuthContext from 'contexts/auth.context';
 import useStyles from './styles.auth';
 import { signIn, signUp } from 'actions/auth.actions';
@@ -42,7 +41,7 @@ const AuthGoogle = () => {
 
   return (
     <GoogleLogin
-      clientId={process.env.GOOGLE_ID || GOOGLE_ID}
+      clientId={process.env.GOOGLE_ID}
       render={(renderProps) => (
         <Button
           className={classes.googleButton}
