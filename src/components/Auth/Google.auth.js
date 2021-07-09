@@ -15,6 +15,8 @@ const AuthGoogle = () => {
   const dispatch = useDispatch();
 
   const handleSuccess = async (res, isSignUp) => {
+    console.log('Google login success!');
+
     const result = res?.profileObj;
     try {
       const form = {
