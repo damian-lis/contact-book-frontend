@@ -9,7 +9,7 @@ const AuthAvatar = () => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className={classes.avatarContainer}>
       <Avatar className={classes.avatar}>
         <LockOutlinedIcon />
       </Avatar>

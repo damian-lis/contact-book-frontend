@@ -28,7 +28,7 @@ export default makeStyles((theme) => ({
   },
   tableButtonWrapper: {
     textAlign: 'right',
-    marginBottom: '20px',
+    marginBottom: theme.spacing(3),
     [theme.breakpoints.down(550)]: {
       textAlign: 'center'
     }
@@ -51,6 +51,6 @@ export default makeStyles((theme) => ({
     alignItems: 'center'
   },
   tableAlert: {
-    marginBottom: 10
+    marginBottom: theme.spacing(2)
   }
 }));

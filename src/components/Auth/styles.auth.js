@@ -7,11 +7,13 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  avatarContainer: {
+    marginBottom: theme.spacing(2)
+  },
   avatar: {
-    margin: theme.spacing(1),
+    margin: `${theme.spacing(1)}px auto`,
     backgroundColor: theme.palette.secondary.main
   },
-
   form: {
     width: '100%',
     marginTop: theme.spacing(3)
@@ -25,6 +27,7 @@ export default makeStyles((theme) => ({
     height: 45
   },
   googleButtonContent: { display: 'flex', justifyContent: 'center', alignItems: 'center' },
-  googleButtonText: { marginLeft: 5 },
-  googleButtonImage: { width: 20 }
+  googleButtonText: { marginLeft: theme.spacing(1) },
+  googleButtonImage: { width: 20 },
+  linkText: { justifyContent: 'flex-end', marginBottom: theme.spacing(5) }
 }));

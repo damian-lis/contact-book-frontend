@@ -187,7 +187,7 @@ const AuthForm = ({ children }) => {
       {children}
 
       {!loading || !loadingGoogle ? (
-        <Grid container justify="flex-end">
+        <Grid container className={classes.linkText}>
           <Grid item>
             <Link to="#" variant="body2" onClick={() => resetForm(true)}>
               {loading
