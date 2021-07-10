@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Contact book (frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An application that allows you to log into the system in which you can add or remove various contacts (frontend version).
 
-## Available Scripts
+<br/>
 
-In the project directory, you can run:
+![](public/images/intro.gif)
 
-### `npm start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The backend repo of this app is available [here](https://github.com/damian-lis/contact-book-backend).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The app live version is available [here](https://contact-book-frontend.vercel.app/).
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
 
-### `npm run build`
+## Table of contents
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Technologies
+2. Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 1. Technologiess
 
-### `npm run eject`
+The following technologies were used in the project (frontend version):
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- React
+- Material-UI
+- Redux
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<br/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 2. Setup
 
-## Learn More
+First of all, you need to make sure you have [Node.js](https://nodejs.org/en/) installed.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+If you have Node.js installed clone the github repo.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Open the project in your favourite IDE and run following script for downloading dependencies:
 
-### Code Splitting
+```
+npm install
+# or
+yarn install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<br/>
 
-### Analyzing the Bundle Size
+Then, in order to enable the user to sign in/up via google, create the google login client:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Enter [here](https://console.cloud.google.com/apis/credentials) and sign in/up,
 
-### Making a Progressive Web App
+1. Click on CREATE CREDENTIALS,
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Click on OAuth client ID,
 
-### Advanced Configuration
+3. Select application type (web aplication),
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+4. Add the name of your OAuth 2.0 client,
 
-### Deployment
+5. Add the authorized JavaScript origins (for example: http://localhost:3000),
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+6. Add the authorized redirect URIs (for example: http://localhost:3000, http://localhost:3000/ and http://localhost:3000/contact),
 
-### `npm run build` fails to minify
+7. Save the entered data,
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+8. Copy the generated Client ID key,
+
+9. Create an .env file in your project,
+
+10. Add the REACT_APP_GOOGLE_ID environment variable there,
+
+11. Assign to this env variable the key you copied, and that's it.
+
+<br/>
+
+After that, run the development server:
+
+```
+npm start
+# or
+yarn start
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+<br/>
+
+To run the backend of this application, go [here](https://github.com/damian-lis/contact-book-backend).
