@@ -186,15 +186,14 @@ const AuthForm = ({ children }) => {
 
       {children}
 
-      {!loading || !loadingGoogle ? (
-        <Grid container className={classes.linkText}>
+      {!loading && !loadingGoogle ? (
+        <Grid container className={classes.linksContainer}>
+          <Grid item>
+            <Link to="/privacyPolicy">Privacy Policy</Link>
+          </Grid>
           <Grid item>
             <Link to="#" variant="body2" onClick={() => resetForm(true)}>
-              {loading
-                ? ''
-                : isSignUp
-                ? 'Already have an account? Sign in'
-                : 'Dont have an account? Sign up'}
+              {isSignUp ? 'Already have an account? Sign in' : 'Dont have an account? Sign up'}
             </Link>
           </Grid>
         </Grid>

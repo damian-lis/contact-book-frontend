@@ -1,9 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
+  titleLink: {
+    textDecoration: 'none',
+    color: '#fff',
+    margin: '0 auto'
+  },
+
   title: {
-    flexGrow: 1,
-    textAlign: 'center',
     fontSize: '1.96rem'
   },
   name: {
@@ -14,13 +18,6 @@ export default makeStyles((theme) => ({
   },
   bar: {
     marginBottom: '20px'
-  },
-
-  barFix: {
-    width: '100vw',
-    marginTop: '-8px',
-    marginBottom: '20px',
-    marginLeft: '-8px'
   },
 
   button: {

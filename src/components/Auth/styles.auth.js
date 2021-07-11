@@ -29,5 +29,5 @@ export default makeStyles((theme) => ({
   googleButtonContent: { display: 'flex', justifyContent: 'center', alignItems: 'center' },
   googleButtonText: { marginLeft: theme.spacing(1) },
   googleButtonImage: { width: 20 },
-  linkText: { justifyContent: 'flex-end', marginBottom: theme.spacing(5) }
+  linksContainer: { justifyContent: 'space-between', marginBottom: theme.spacing(5) }
 }));

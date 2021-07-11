@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import useStyles from './styles';
 import { logout } from 'actions/auth.actions';
@@ -21,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static" className={userInfo ? classes.barFix : classes.bar}>
+    <AppBar position="static" className={classes.bar}>
       <Toolbar>
         {userInfo ? (
           <>
@@ -33,9 +34,11 @@ const Header = () => {
             </Button>
           </>
         ) : (
-          <Typography variant="h6" className={classes.title}>
-            Contact Book
-          </Typography>
+          <Link className={classes.titleLink} to="/">
+            <Typography className={classes.title} variant="h6">
+              CONTACT BOOK
+            </Typography>
+          </Link>
         )}
       </Toolbar>
     </AppBar>
