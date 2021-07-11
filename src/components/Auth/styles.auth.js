@@ -30,5 +30,5 @@ export default makeStyles((theme) => ({
   googleButtonText: { marginLeft: theme.spacing(1) },
   googleButtonImage: { width: 20 },
   linksContainer: { justifyContent: 'space-between', marginBottom: theme.spacing(5) },
-  linkContainer: { marginBottom: 10 }
+  linkContainer: { marginBottom: theme.spacing(2) }
 }));

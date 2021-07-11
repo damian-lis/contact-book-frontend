@@ -90,11 +90,7 @@ const ContactsForm = () => {
 
   return (
     <>
-      <Dialog
-        className={classes.dialogContainer}
-        maxWidth={'xs'}
-        open={open}
-        aria-labelledby="form-dialog-title">
+      <Dialog maxWidth={'xs'} open={open} aria-labelledby="form-dialog-title">
         <DialogTitle className={classes.dialogTitle} id="form-dialog-title">
           Contact Details
         </DialogTitle>

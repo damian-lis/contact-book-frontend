@@ -1,14 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-  dialogContainer: {
-    margin: '-20px'
-  },
   dialogFile: {
-    marginTop: '15px'
+    marginTop: theme.spacing(2)
   },
   dialogTitle: {
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(-2)
   },
   dialogContent: {
     overflow: 'hidden'
@@ -18,10 +17,10 @@ export default makeStyles((theme) => ({
   },
   dialogActions: {
     justifyContent: 'center',
-    margin: '15px 0'
+    margin: `${theme.spacing(2)}px 0`
   },
   dialogButtonClose: {
-    marginRight: '5px'
+    marginRight: theme.spacing(1)
   },
   tableButton: {
     margin: theme.spacing(1)

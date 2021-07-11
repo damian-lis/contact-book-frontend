@@ -8,26 +8,25 @@ export default makeStyles((theme) => ({
   },
 
   title: {
-    fontSize: '1.96rem',
+    fontSize: 25,
     [theme.breakpoints.down(300)]: {
-      fontSize: '1.76rem'
+      fontSize: 20
     }
   },
   name: {
     textAlign: 'left',
     [theme.breakpoints.down(550)]: {
-      fontSize: '16px'
+      fontSize: 14
     }
   },
   bar: {
-    marginBottom: '20px'
+    marginBottom: theme.spacing(3)
   },
 
   button: {
     marginLeft: 'auto',
     [theme.breakpoints.down(550)]: {
-      fontSize: '12px',
-      padding: '3px 5px'
+      fontSize: 12
     }
   }
 }));

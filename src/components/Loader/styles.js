@@ -4,8 +4,8 @@ export default makeStyles(() => ({
   authLoader: {
     color: 'white',
     opacity: 0.6,
-    width: '24px',
-    height: '24px'
+    width: 24,
+    height: 24
   },
 
   tableLoader: {
