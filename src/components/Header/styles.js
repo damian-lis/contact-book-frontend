@@ -8,7 +8,10 @@ export default makeStyles((theme) => ({
   },
 
   title: {
-    fontSize: '1.96rem'
+    fontSize: '1.96rem',
+    [theme.breakpoints.down(300)]: {
+      fontSize: '1.76rem'
+    }
   },
   name: {
     textAlign: 'left',
